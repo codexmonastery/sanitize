@@ -79,5 +79,53 @@ type User struct {
 | `capitalize` | Capitalizes the first letter of each word. |
 | `dive` | Recursively sanitizes nested structs, arrays, or slices. |
 
+## 🔌 Custom Transformers
+
+You can extend `sanitize` by registering your own transformation rules.
+
+### 1. Define a Transformer
+A transformer is a function with the signature:
+`func(field reflect.Value, ruleName, ruleValue string) error`
+
+### 2. Register it
+Use `sanitize.Register` to add your custom rule.
+
+### Example
+
+```go
+package main
+
+import (
+    "fmt"
+    "reflect"
+    "strings"
+    "github.com/codexmonastery/sanitize"
+)
+
+func main() {
+    // 1. Register a custom "mask_email" transformer
+    sanitize.Register("mask_email", func(field reflect.Value, name, value string) error {
+        if field.Kind() != reflect.String {
+            return nil
+        }
+        val := field.String()
+        if atIndex := strings.Index(val, "@"); atIndex > 0 {
+            field.SetString(val[:2] + "****" + val[atIndex:])
+        }
+        return nil
+    })
+
+    // 2. Use it in your struct
+    type User struct {
+        Email string `sanitize:"mask_email"`
+    }
+
+    u := User{Email: "contact@example.com"}
+    _ = sanitize.Apply(&u)
+
+    fmt.Println(u.Email) // co****@example.com
+}
+```
+
 ## 🤝 Contributing
 Contributions are welcome! Please feel free to submit a Pull Request.
