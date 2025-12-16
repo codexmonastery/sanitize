@@ -12,10 +12,14 @@ const (
 )
 
 var (
-	ErrInvalidInput    = errors.New("invalid input")
+	// ErrInvalidInput is returned when the input is not a pointer or is nil.
+	ErrInvalidInput = errors.New("invalid input")
+	// ErrUnsupportedRule is returned when a tag contains a rule that is not registered.
 	ErrUnsupportedRule = errors.New("unsupported rule")
 )
 
+// Apply sanitizes the input struct or slice of structs based on the "sanitize" struct tags.
+// It modifies the input in place. The input must be a non-nil pointer to a struct or a slice.
 func Apply(v any) error {
 	vof := reflect.ValueOf(v)
 

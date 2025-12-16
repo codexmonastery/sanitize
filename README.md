@@ -2,6 +2,7 @@
 
 ![Build Status](https://github.com/codexmonastery/sanitize/actions/workflows/test.yml/badge.svg)
 [![Go Report Card](https://goreportcard.com/badge/github.com/codexmonastery/sanitize)](https://goreportcard.com/report/github.com/codexmonastery/sanitize)
+[![Go Reference](https://pkg.go.dev/badge/github.com/codexmonastery/sanitize.svg)](https://pkg.go.dev/github.com/codexmonastery/sanitize)
 
 sanitize is a lightweight Golang package designed to clean, normalize, and transform input payloads using json struct tags. This library focuses not on validation, but on data hygiene—ensuring that incoming payloads are properly trimmed, standardized, and ready for use.
 
